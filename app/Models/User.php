@@ -10,6 +10,22 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+    public function driver()
+    {
+        return $this->hasOne(Driver::class);
+    }
+
+    public function passenger()
+    {
+        return $this->hasOne(Passenger::class);
+
+    }
+
+    public function wallet()
+    {
+        return $this->hasOne(Wallet::class);
+    }
+
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 

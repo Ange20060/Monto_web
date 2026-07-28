@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('trips', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('driver_id')->constrained()->cascadeOnDelete();
+            $table->string('departure');
+            $table->string('destination');
+            $table->decimal('price',10,2);
+            $table->integer('available_seats');
+            $table->dateTime('departure_time');
+            $table->enum('status', ['waiting', 'started', 'completed', 'cancelled'])->default('waiting');
             $table->timestamps();
         });
     }

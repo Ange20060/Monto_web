@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('vehicules', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('driver_id')->constrained()->cascadeOnDelete();
+
+            $table->string('brand');
+            $table->string('model');
+            $table->string('color');
+            $table->string('lplate_number')->unique();
+            $table->integer('year');
+            $table->integer('seats');
+            $table->boolean('verified')->default(false);
             $table->timestamps();
         });
     }
