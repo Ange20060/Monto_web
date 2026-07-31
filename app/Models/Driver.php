@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 class Driver extends Model
 {
     //
@@ -13,6 +14,9 @@ class Driver extends Model
         'license_expiration',
         'verified',
         'available',
+        'is_online',
+        'phone',
+        'city',
         'rating',
     ];
     public function user()

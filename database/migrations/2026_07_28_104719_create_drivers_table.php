@@ -16,8 +16,11 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('license_number')->unique();
             $table->date('license_expiration');
+            $table->string('phone')->nullable();
+            $table->string('city')->nullable();
             $table->boolean('verified')->default(false);
             $table->boolean('available')->default(false);
+            $table->boolean('is_online')->default(false);
             $table->decimal('rating', 3, 2)->default(5.00);
             $table->timestamps();
         });
