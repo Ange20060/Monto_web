@@ -23,9 +23,9 @@ class Driver extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function vehicule()
+    public function vehicle()
     {
-        return $this->hasOne(Vehicule::class);
+        return $this->hasOne(Vehicle::class);
     }
     public function trips()
     {

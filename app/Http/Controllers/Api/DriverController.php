@@ -9,17 +9,17 @@ class DriverController extends Controller
 {
     public function profile(Request $request)
     {
-       $driver = Driver::with('vehicule')
+       $driver = Driver::with('vehicle')
         ->where('user_id',$request->user()->id)
         ->first();
-        if(!driver){
+        if(!$driver){
           return response()->json([
             'success'=> false,
             'message'=> 'Profile chauffeur introuvable.'
           ], 404);
         }
         return response()->json([
-          'sucecss'=> true,
+          'success'=> true,
           'driver'=>$driver
         ]);
     }
@@ -31,7 +31,7 @@ class DriverController extends Controller
     public function update(Request $request){
       $driver = Driver::where('user_id', $request->user()->id)->first();
 
-      if(!driver){
+      if(!$driver){
         return response()->json([
           'sucess'=> false,
           'message'=> 'Profil chauffeur introuvable.'
