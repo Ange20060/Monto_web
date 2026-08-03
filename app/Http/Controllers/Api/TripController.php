@@ -21,11 +21,11 @@ class TripController extends Controller
         'price'=>'required|numeric|min:0',
         'available_seats'=>'required|integer|min:1',
       ]);
-      $driver = Driver::where('user_id', $request->user()->id)->fisrt();
+      $driver = Driver::where('user_id', $request->user()->id)->first();
 
       if(!$driver){
         return response()->json([
-          'response'=>false,
+          'success'=>false,
           'message'=>'Profil chauffeur introuvable.'
         ],404);
       }
