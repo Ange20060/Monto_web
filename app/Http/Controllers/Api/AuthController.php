@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Passenger;
 use App\Models\User;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -26,6 +28,9 @@ class AuthController extends Controller
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
+
+        Passenger::firstOrCreate(['user_id' => $user->id]);
+        Wallet::firstOrCreate(['user_id' => $user->id]);
 
         $token = $user->createToken('Monto')->plainTextToken;
 
@@ -65,8 +70,8 @@ class AuthController extends Controller
     {
         $user = $request->user();
 
-        if ($user && $user->currentAccessToken()) {
-            $user->currentAccessToken()->delete();
+        if ($user) {
+            $user->tokens()->delete();
         }
 
         return response()->json([

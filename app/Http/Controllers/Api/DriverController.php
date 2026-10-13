@@ -7,6 +7,36 @@ use App\Models\Driver;
 
 class DriverController extends Controller
 {
+    public function store(Request $request)
+    {
+        $request->validate([
+            'license_number' => 'required|string|max:100|unique:drivers,license_number',
+            'license_expiration' => 'required|date',
+            'phone' => 'nullable|string|max:20',
+            'city' => 'nullable|string|max:100',
+        ]);
+
+        $driver = Driver::firstOrCreate(
+            ['user_id' => $request->user()->id],
+            [
+                'license_number' => $request->license_number,
+                'license_expiration' => $request->license_expiration,
+                'phone' => $request->phone,
+                'city' => $request->city,
+                'verified' => false,
+                'available' => true,
+                'is_online' => false,
+                'rating' => 5.00,
+            ]
+        );
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Profil chauffeur créé.',
+            'driver' => $driver,
+        ], 201);
+    }
+
     public function profile(Request $request)
     {
        $driver = Driver::with('vehicle')
