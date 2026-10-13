@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\Api;
+
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\Booking;
 use App\Models\Passenger;
 use App\Models\Trip;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class BookingController extends Controller
 {
@@ -62,11 +64,16 @@ class BookingController extends Controller
                 abort(400, 'Plus assez de places disponibles.');
             }
 
+            do {
+                $ticketNumber = 'MNT-' . now()->format('Ymd') . '-' . strtoupper(Str::random(8));
+            } while (Booking::where('ticket_number', $ticketNumber)->exists());
+
             $booking = Booking::create([
                 'trip_id' => $trip->id,
                 'passenger_id' => $passenger->id,
                 'seats' => $request->seats,
-                'status' => 'pending'
+                'status' => 'pending',
+                'ticket_number' => $ticketNumber
             ]);
 
             $trip->decrement('available_seats', $request->seats);

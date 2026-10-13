@@ -56,13 +56,15 @@ class BookingApiTest extends TestCase
         ]);
 
         $response->assertStatus(201)
-            ->assertJsonPath('success', true);
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('booking.ticket_number', $response->json('booking.ticket_number'));
 
         $this->assertDatabaseHas('bookings', [
             'trip_id' => $trip->id,
             'passenger_id' => $passenger->id,
             'seats' => 2,
             'status' => 'pending',
+            'ticket_number' => $response->json('booking.ticket_number'),
         ]);
 
         $trip->refresh();
